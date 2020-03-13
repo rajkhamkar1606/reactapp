@@ -1,3 +1,7 @@
+/*
+Created by Oualid Faouzi
+*/
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min'
@@ -30,10 +34,10 @@ function App() {
                 </div>
             </nav>
             <Switch>
-                <Route path="/" component={Overview}>
+                <Route path="/" exact component={Overview}>
                     <Overview />
                 </Route>
-                <Route path="/refund" component={Refund}>
+                <Route path="/refund" exact component={Refund}>
                     <Refund />
                 </Route>
             </Switch>
