@@ -24,3 +24,33 @@
 	text-align: center;
 	margin:0 auto;
 }
+
+#inputAlert {
+	display: none;
+	text-align: center;
+	margin:0 auto;
+}
+
+#confirmationAlert {
+	display: none;
+	text-align: center;
+	margin:0 auto;
+}
+
+#cancelAlert {
+	display: none;
+	text-align: center;
+	margin:0 auto;
+}
+
+#tryAgainButton {
+	display: none;
+	text-align: center;
+	margin:0 auto;
+}
+
+#okButton {
+	display: none;
+	text-align: center;
+	margin:0 auto;
+}

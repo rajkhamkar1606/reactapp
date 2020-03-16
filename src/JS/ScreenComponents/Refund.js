@@ -18,6 +18,11 @@ Example of QR code data in JSON:
 			}
 	 ]
 }
+Link to the QR code:
+https://duckduckgo.com/?q=qr+code+%7B%22sender%22%3A+%22IKEA+BV%22%2C+%22invoice_no
+%22%3A+%222020000042%22%2C+%22description%22%3A+%22Kallax%22%2C+%22
+amount%22%3A+59.95%2C+%22vat%22%3A+%5B+%7B+%22rate%22%3A+21%2C+%22
+amount%22%3A+10.4+%7D+%5D+%7D&t=h_&ia=answer
 
 NOTE: Session storage is used to store sensitive information about the user.
 Session storage was NOT designed to be used as a secured storage mechanism in a browser.
@@ -27,6 +32,7 @@ and send it off to their own domain. This issue can be solved by integrating a d
 import React, {
 	Component
 } from 'react';
+import '../decimalNotationRegEx.js'
 import QrReader from 'react-qr-reader';
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -43,7 +49,8 @@ class Refund extends Component {
 			"vatRate",
 			"vatAmount"
 		],
-		refundPercentage: 0
+		refundPercentage: 0,
+		refundAmount: 0
 	}
 
 	handleScan = data => {
@@ -109,14 +116,14 @@ class Refund extends Component {
 			$('#' + id).empty();
 		}
 
-		document.getElementById("qrCanvas").style.display = "block";
 		document.getElementById("confirmationLayout").style.display = "none";
 	}
 
 	confirmInvoice = () => {
 		console.log(this.state.refundPercentage);
-		if (this.state.refundPercentage > 0 && this.state.refundPercentage <= 100) {
+		if (this.state.refundPercentage >= 1 && this.state.refundPercentage <= 100) {
 			this.state.result.refundPercentage = parseInt(this.state.refundPercentage);
+			this.state.result.refundAmount = parseFloat(this.state.refundAmount);
 
 			var numOfInvoices = sessionStorage.getItem("numOfInvoicesRegistered");
 			numOfInvoices++;
@@ -125,26 +132,50 @@ class Refund extends Component {
 
 			sessionStorage.setItem("numOfInvoicesRegistered", numOfInvoices);
 
-			console.log(sessionStorage.getItem("obj1"));
-
-			//ADD FEEDBACK FOR THE USER
 			this.clearDataView();
+			document.getElementById("okButton").style.display = "block";
+			document.getElementById("confirmationAlert").style.display = "block";
 		} else {
-			console.log("invalid percentage input.");
-			//ADD FEEDBACK FOR THE USER
 			this.clearDataView();
+			document.getElementById("tryAgainButton").style.display = "block";
+			document.getElementById("inputAlert").style.display = "block";
 		}
 	}
 
 	cancelInvoice = () => {
-		//ADD FEEDBACK FOR THE USER
 		this.clearDataView();
+		document.getElementById("tryAgainButton").style.display = "block";
+		document.getElementById("cancelAlert").style.display = "block";
 	}
+
+	resetView = () => {
+		this.clearDataView();
+		document.getElementById("tryAgainButton").style.display = "none";
+		document.getElementById("okButton").style.display = "none";
+		document.getElementById("qrCanvas").style.display = "block";
+		document.getElementById("inputAlert").style.display = "none";
+		document.getElementById("cancelAlert").style.display = "none";
+		document.getElementById("confirmationAlert").style.display = "none";
+	}
+
 
 	handleChange = (e) => {
 		this.setState({
 			refundPercentage: e.target.value
 		})
+		var percentageValue = document.getElementById("inputRefundPercentage").value;
+		if(percentageValue >= 1 && percentageValue <= 100) {
+			var initialPrice = parseFloat(this.state.result.amount);
+			var refundMultiplier = parseFloat((percentageValue / 100.0));
+			var currentRefundAmount = (initialPrice * refundMultiplier);
+			currentRefundAmount = currentRefundAmount.toFixedDown(2);
+			document.getElementById("refundPrice").innerHTML = "Price to be refunded: " + currentRefundAmount + " EUR";
+			this.setState({
+				refundAmount: currentRefundAmount
+			})
+		} else {
+			document.getElementById("refundPrice").innerHTML = "Please enter a valid percentage value. (1 up to 100)";
+		}
 	}
 
 	render() {
@@ -175,9 +206,25 @@ class Refund extends Component {
 							<input type="number" className="form-control" id="inputRefundPercentage" value={this.state.refundPercentage} onChange={this.handleChange}/>
 						</div>
 					</form>
+					<p id="refundPrice">Price to be refunded: 0 EUR</p>
 					<p>Do you want to refund this product?</p>
 					<button type="button" className="btn btn-primary btn-lg" onClick={this.confirmInvoice}>Confirm</button>
 					<button type="button" className="btn btn-secondary btn-lg" onClick={this.cancelInvoice}>Cancel</button>
+				</div>
+				<div className="alert alert-success" id="confirmationAlert" role="alert">
+  				You have successfully registered this invoice to be refunded!
+				</div>
+				<div className="alert alert-danger" id="cancelAlert" role="alert">
+  				You have canceled the registration.
+				</div>
+				<div className="alert alert-warning" id="inputAlert" role="alert">
+  				Invalid percentage value, please enter a valid percentage value (1 up to 100).
+				</div>
+				<div id="tryAgainButton">
+					<button type="button" className="btn btn-primary btn-lg" onClick={this.resetView}>Try again</button>
+				</div>
+				<div id="okButton">
+					<button type="button" className="btn btn-primary btn-lg" onClick={this.resetView}>Okay</button>
 				</div>
 			</div>
 		)
