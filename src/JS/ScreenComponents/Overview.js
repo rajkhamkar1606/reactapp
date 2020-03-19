@@ -20,14 +20,18 @@ class Overview extends Component {
 		var numOfInvoices = sessionStorage.getItem("numOfInvoicesRegistered");
 		var buttonNode;
 		var textNode;
+		var innerNode;
+		//When component mounts check if there is any invoices registered
 		if (numOfInvoices != 0) {
 			document.getElementById("infoMessage").style.display = "block";
 			var invoiceData = new Array(numOfInvoices);
 			var invoiceKey = 1;
+			//Loop through invoice data and store it in an array
 			for (var i = 0; i < numOfInvoices; i++) {
 				invoiceData[i] = JSON.parse(sessionStorage.getItem("obj" + (invoiceKey).toString()));
 				invoiceKey++;
 			}
+			//Create list view with all data, every item in the list acts as a button which displays more information about it.
 			for (var j = 0; j < numOfInvoices; j++) {
 				buttonNode = document.createElement("button");
 				buttonNode.setAttribute("class", "list-group-item list-group-item-action");
@@ -45,8 +49,6 @@ class Overview extends Component {
   				textNode = document.createTextNode("Invoice Number: " + invoiceData[j].invoice_no + " - Description: " + invoiceData[j].description);
 				buttonNode.appendChild(textNode);
 				document.getElementById("invoiceList").appendChild(buttonNode);
-
-				var innerNode;
 
 				innerNode = document.createElement("div");
 				innerNode.setAttribute("class", "card card-body");
@@ -88,6 +90,7 @@ class Overview extends Component {
 
 				document.getElementById("invoiceList").appendChild(innerNode);
 			}
+		//If there are no invoices registered display an empty message
 		} else {
 			var node;
 			var textNode;
@@ -97,6 +100,7 @@ class Overview extends Component {
 			node.appendChild(textNode);
 			document.getElementById("invoiceView").appendChild(node);
 		}
+		//Render a back button to go back to the list view after an item in the list is clicked
 		buttonNode = document.createElement("button");
 		buttonNode.setAttribute("class", "btn btn-secondary btn-lg");
 		buttonNode.setAttribute("id", "goBackButton");
@@ -115,6 +119,7 @@ class Overview extends Component {
 		document.getElementById("invoiceList").appendChild(buttonNode);
 	}
 
+	//Function used to append a br tag to a node
 	breakLine = node => {
 		var breakTag;
 		for (var i = 0; i < 2; i++) {

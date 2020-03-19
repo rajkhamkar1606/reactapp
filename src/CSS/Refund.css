@@ -1,8 +1,9 @@
 .qrCodeWindow {
+	text-align: center;
 	display:block;
   margin:0 auto;
-  height: 25%;
-  width: 25%;
+  height: 30%;
+  width: 30%;
 }
 
 .myResults {

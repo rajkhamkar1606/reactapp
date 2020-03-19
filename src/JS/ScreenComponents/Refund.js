@@ -32,7 +32,7 @@ and send it off to their own domain. This issue can be solved by integrating a d
 import React, {
 	Component
 } from 'react';
-import '../decimalNotationRegEx.js'
+import '../decimalNotationRegEx.js' //This import is used to truncate decimal numbers to decimal places.
 import QrReader from 'react-qr-reader';
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -52,7 +52,7 @@ class Refund extends Component {
 		refundPercentage: 0,
 		refundAmount: 0
 	}
-
+	//This function is called when the QR code scanner succesfully scanned.
 	handleScan = data => {
 		if (data && this.state.result === 'No result') {
 			this.setState({
@@ -98,11 +98,12 @@ class Refund extends Component {
 			document.getElementById("confirmationLayout").style.display = "block";
 		}
 	}
-
+	//This function is called when the QR code scanner returns an error. Error will be logged in console for development.
 	handleError = err => {
 		console.error(err)
 	}
 
+	//This function uses jquery to loop through all div elements and empty their contents. (div className = myResults)
 	clearDataView = () => {
 		this.setState({
 			result: 'No result',
@@ -118,7 +119,9 @@ class Refund extends Component {
 		document.getElementById("confirmationLayout").style.display = "none";
 	}
 
+	//This function gets called when the user clicks on the confirm button and they want to refund the product.
 	confirmInvoice = () => {
+		//If refund percentage is a valid input, confirm
 		if (this.state.refundPercentage >= 1 && this.state.refundPercentage <= 100) {
 			this.state.result.refundPercentage = parseInt(this.state.refundPercentage);
 			this.state.result.refundAmount = parseFloat(this.state.refundAmount);
@@ -132,11 +135,13 @@ class Refund extends Component {
 
 			this.clearDataView();
 			document.getElementById("loaderView").style.display = "block";
+			//Timeout is used to wait 4 seconds and display the custom css loading indicator
 			setTimeout(function(){
 				document.getElementById("loaderView").style.display = "none";
 				document.getElementById("okButton").style.display = "block";
 				document.getElementById("confirmationAlert").style.display = "block";
 			}, 4000);
+		//Else, give the user feedback and give the option to try it again
 		} else {
 			this.clearDataView();
 			document.getElementById("tryAgainButton").style.display = "block";
@@ -144,12 +149,14 @@ class Refund extends Component {
 		}
 	}
 
+	//Function called when the user presses the cancel button.
 	cancelInvoice = () => {
 		this.clearDataView();
 		document.getElementById("tryAgainButton").style.display = "block";
 		document.getElementById("cancelAlert").style.display = "block";
 	}
 
+	//Function called to reset all elements to their original state.
 	resetView = () => {
 		this.clearDataView();
 		document.getElementById("tryAgainButton").style.display = "none";
@@ -161,7 +168,7 @@ class Refund extends Component {
 		document.getElementById("loaderView").style.display = "none";
 	}
 
-
+	//This function is called when the user changes the input value of the refund percentage, it also gives an updated refund amount to give the user feedback.
 	handleChange = (e) => {
 		this.setState({
 			refundPercentage: e.target.value
@@ -191,6 +198,7 @@ class Refund extends Component {
 				</div>
 				<div className="qrCodeWindow" id="qrCanvas">
 					<QrReader delay={scanDelay} onError={this.handleError} onScan={this.handleScan}/>
+					<p>Use the camera of your device and scan the QR code.</p>
 				</div>
 				<div className="myResults">
 					<div id="sender"></div>
