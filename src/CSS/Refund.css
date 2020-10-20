@@ -1,0 +1,9 @@
+.qrCodeWindow {
+  display:block;
+  margin:0 auto;
+  height: 25%;
+  width: 25%;
+}
+.myResults{
+	text-align: center;
+}
