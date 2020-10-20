@@ -1,5 +1,5 @@
 /*
-Created by Oualid Faouzi
+Created by Oualid Faouzi for Visualisation & Application
 This component is responsible for the QR code scanning function.
 Link to the QR scanner package:
 https://www.npmjs.com/package/react-qr-reader
