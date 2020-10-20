@@ -1,5 +1,5 @@
 .qrCodeWindow {
-	display:block;
+  display:block;
   margin:0 auto;
   height: 25%;
   width: 25%;
@@ -9,18 +9,7 @@
 	text-align: center;
 }
 
-#confirmationLayout {
+#buttonLayout {
 	display: none;
 	text-align: center;
-}
-
-#inputRefundPercentage {
-	margin:0 auto;
-	width: 25%;
-}
-
-#verifyLayout {
-	display: none;
-	text-align: center;
-	margin:0 auto;
 }
