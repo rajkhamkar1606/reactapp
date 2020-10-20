@@ -115,10 +115,12 @@ class Refund extends Component {
 			id = this.state.idList[i];
 			$('#' + id).empty();
 		}
+
 		document.getElementById("confirmationLayout").style.display = "none";
 	}
 
 	confirmInvoice = () => {
+		console.log(this.state.refundPercentage);
 		if (this.state.refundPercentage >= 1 && this.state.refundPercentage <= 100) {
 			this.state.result.refundPercentage = parseInt(this.state.refundPercentage);
 			this.state.result.refundAmount = parseFloat(this.state.refundAmount);
@@ -131,12 +133,8 @@ class Refund extends Component {
 			sessionStorage.setItem("numOfInvoicesRegistered", numOfInvoices);
 
 			this.clearDataView();
-			document.getElementById("loaderView").style.display = "block";
-			setTimeout(function(){
-				document.getElementById("loaderView").style.display = "none";
-				document.getElementById("okButton").style.display = "block";
-				document.getElementById("confirmationAlert").style.display = "block";
-			}, 4000);
+			document.getElementById("okButton").style.display = "block";
+			document.getElementById("confirmationAlert").style.display = "block";
 		} else {
 			this.clearDataView();
 			document.getElementById("tryAgainButton").style.display = "block";
@@ -158,7 +156,6 @@ class Refund extends Component {
 		document.getElementById("inputAlert").style.display = "none";
 		document.getElementById("cancelAlert").style.display = "none";
 		document.getElementById("confirmationAlert").style.display = "none";
-		document.getElementById("loaderView").style.display = "none";
 	}
 
 
@@ -185,20 +182,22 @@ class Refund extends Component {
 		var scanDelay = 300;
 		return (
 			<div>
-				<div id="loaderView">
-					<p id="loaderMessage">Saving invoice data...</p>
-					<div className="loader"></div>
-				</div>
 				<div className="qrCodeWindow" id="qrCanvas">
 					<QrReader delay={scanDelay} onError={this.handleError} onScan={this.handleScan}/>
 				</div>
 				<div className="myResults">
-					<div id="sender"></div>
-					<div id="invoiceNo"></div>
-					<div id="description"></div>
-					<div id="price"></div>
-					<div id="vatRate"></div>
-					<div id="vatAmount"></div>
+					<div id="sender">
+					</div>
+					<div id="invoiceNo">
+					</div>
+					<div id="description">
+					</div>
+					<div id="price">
+					</div>
+					<div id="vatRate">
+					</div>
+					<div id="vatAmount">
+					</div>
 				</div>
 				<div id="confirmationLayout">
 					<form>
@@ -207,19 +206,19 @@ class Refund extends Component {
 							<input type="number" className="form-control" id="inputRefundPercentage" value={this.state.refundPercentage} onChange={this.handleChange}/>
 						</div>
 					</form>
-					<p id="refundPrice">Please enter a valid percentage value. (1 up to 100)</p>
+					<p id="refundPrice">Price to be refunded: 0 EUR</p>
 					<p>Do you want to refund this product?</p>
 					<button type="button" className="btn btn-primary btn-lg" onClick={this.confirmInvoice}>Confirm</button>
 					<button type="button" className="btn btn-secondary btn-lg" onClick={this.cancelInvoice}>Cancel</button>
 				</div>
 				<div className="alert alert-success" id="confirmationAlert" role="alert">
-					You have successfully registered this invoice to be refunded!
+  				You have successfully registered this invoice to be refunded!
 				</div>
 				<div className="alert alert-danger" id="cancelAlert" role="alert">
-					You have canceled the registration.
+  				You have canceled the registration.
 				</div>
 				<div className="alert alert-warning" id="inputAlert" role="alert">
-					Invalid percentage value, please enter a valid percentage value (1 up to 100).
+  				Invalid percentage value, please enter a valid percentage value (1 up to 100).
 				</div>
 				<div id="tryAgainButton">
 					<button type="button" className="btn btn-primary btn-lg" onClick={this.resetView}>Try again</button>
