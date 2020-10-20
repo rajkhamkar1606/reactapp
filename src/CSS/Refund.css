@@ -4,12 +4,6 @@
   height: 25%;
   width: 25%;
 }
-
-.myResults {
-	text-align: center;
-}
-
-#buttonLayout {
-	display: none;
+.myResults{
 	text-align: center;
 }
