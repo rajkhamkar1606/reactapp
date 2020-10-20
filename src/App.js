@@ -15,35 +15,38 @@ import Overview from './JS/ScreenComponents/Overview';
 import Refund from './JS/ScreenComponents/Refund';
 
 function App() {
-  return (
-    <Router>
-        <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">Overview</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/refund">Refund</Link>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <Switch>
-                <Route path="/" exact component={Overview}>
-                    <Overview />
-                </Route>
-                <Route path="/refund" exact component={Refund}>
-                    <Refund />
-                </Route>
-            </Switch>
-        </div>
-    </Router>
-  );
+    //Localstorage is going to be used to store invoices to show in the overview
+    localStorage.clear();
+    console.log("Localstorage cleared.")
+    return (
+        <Router>
+            <div>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/">Overview</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/refund">Refund</Link>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <Switch>
+                    <Route path="/" exact component={Overview}>
+                        <Overview />
+                    </Route>
+                    <Route path="/refund" exact component={Refund}>
+                        <Refund />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
