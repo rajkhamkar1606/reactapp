@@ -9,6 +9,8 @@ Session storage was NOT designed to be used as a secured storage mechanism in a 
 If an attacker runs Javascript, they can retrieve all the data stored in the sessionstorage
 and send it off to their own domain. This issue can be solved by integrating a database to store the data.
 
+REMINDER FOR FUTURE DEVELOPMENT: find solution to static parsing to make the product scalable.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
