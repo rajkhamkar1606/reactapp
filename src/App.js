@@ -8,11 +8,8 @@ and send it off to their own domain. This issue can be solved by integrating a d
 */
 
 import React from 'react';
-
-//Bootstrap dependencies are used to create responsive elements
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,7 +20,6 @@ import Overview from './JS/ScreenComponents/Overview';
 import Refund from './JS/ScreenComponents/Refund';
 
 function App() {
-  //Sessionstorage cleared every time the browser gets refreshed and numOfInvoicesRegistered is initialized to 0.
   sessionStorage.clear();
   sessionStorage.setItem("numOfInvoicesRegistered", 0);
   console.log("Session memory cleared.")
