@@ -107,8 +107,7 @@ class Refund extends Component {
 	clearDataView = () => {
 		this.setState({
 			result: 'No result',
-			refundPercentage: 0,
-			refundAmount: 0
+			refundPercentage: 0
 		})
 		var len = this.state.idList.length;
 		var id;

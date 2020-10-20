@@ -131,6 +131,7 @@ class Overview extends Component {
 	render(){
 		return (
 			<div>
+				<h2>Overview</h2>
 				<p id="infoMessage">Click an item in the list for more information</p>
 				<div id="invoiceView">
 					<div className="list-group" id="invoiceList">
